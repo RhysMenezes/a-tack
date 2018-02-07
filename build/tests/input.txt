@@ -1,0 +1,7 @@
+/levels/easy1
+s
+s
+d
+d
+q
+q

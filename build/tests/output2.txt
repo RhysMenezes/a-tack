@@ -1,0 +1,28 @@
+[3J[H[2J[1m[91m         _             _
+[96m   ____[91m | |           | |
+[96m  / __ \[91m| |_ __ _  ___| | __
+[96m / / _` [91m| __/ _` |/ __| |/ /
+[96m| | (_| [91m| || (_| | (__|   <
+[96m \ \__,_[91m|\__\__,_|\___|_|\_\ 
+[96m  \____/
+
+[37mDeveloped by Dallas McNeil and Rhys Menezes[0m
+
+Which level do you want to play? Type 'quit' to stop.
+ > [91mERROR:[31m Level doesn't exist.[0m
+Which level do you want to play? Type 'quit' to stop.
+ > [91mERROR:[31m Level doesn't exist.[0m
+Which level do you want to play? Type 'quit' to stop.
+ > [91mERROR:[31m Level doesn't exist.[0m
+Which level do you want to play? Type 'quit' to stop.
+ > [91mERROR:[31m Level doesn't exist.[0m
+Which level do you want to play? Type 'quit' to stop.
+ > [91mERROR:[31m Level doesn't exist.[0m
+Which level do you want to play? Type 'quit' to stop.
+ > [91mERROR:[31m Level doesn't exist.[0m
+Which level do you want to play? Type 'quit' to stop.
+ > [91mERROR:[31m Level doesn't exist.[0m
+Which level do you want to play? Type 'quit' to stop.
+ > 
+[1mThanks for playing![0m
+
