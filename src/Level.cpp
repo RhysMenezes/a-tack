@@ -45,10 +45,10 @@ bool Level::load(string levelData,int width, int height) {
     this->width = width;
     this->height = height;
     this->levelData = levelData;
-    
+
     // Create a player
     player = new Player();
-    
+
     // Check if width and height are above 0
     if (width < 1||height < 1) {
         cout << escapeCodeBase("31")+"Invalid level size."+colourReset() << endl;
@@ -56,12 +56,12 @@ bool Level::load(string levelData,int width, int height) {
     }
 
     int size = levelData.length();
-    
+
     // Keep track of how many entities should be created
     int es = 0;
     int ws = 0;
     int ps = 0;
-    
+
     // Record how many entities
     for (int i=0;i<size;i++) {
         if (levelData[i] == '*') {
@@ -76,13 +76,13 @@ bool Level::load(string levelData,int width, int height) {
             es++;
         }
     }
-    
+
     // Show an error if an incorrect number of players appeared
     if (ps != 1) {
         cout << escapeCodeBase("31")+"No or more than one player found."+colourReset() << endl;
         return false;
     }
-    
+
     // If there are walls or entities, dynamically allocate arrays for them
     if (es > 0) {
         enemies = new Enemy*[es];
@@ -90,10 +90,10 @@ bool Level::load(string levelData,int width, int height) {
     if (ws > 0) {
         walls = new Wall*[ws];
     }
-    
+
     wallCount = ws;
     enemyCount = es;
-    
+
     // Keep track of x and y coordinates of entities in data
     int x = 0;
     int y = 0;
@@ -146,8 +146,14 @@ bool Level::load(string levelData,int width, int height) {
             enemies[e] = new EnemyBishop();
             enemies[e]->setPosition(x,y);
             e++;
+        } else if (levelData[i] == ' '||levelData[i] == '\t') {
+            x++;
+            continue;
+        } else if (levelData[i] != '.') {
+            cout << escapeCodeBase("31")+"Invalid character found."+colourReset() << endl;
+            return false;
         }
-        
+
         // Check x an y don't exceed specified width and height
         if (x>=width) {
             cout << escapeCodeBase("31")+"Width bound exceeded."+colourReset() << endl;
@@ -159,7 +165,7 @@ bool Level::load(string levelData,int width, int height) {
         }
         x++;
     }
-    
+
     return true;
 }
 
@@ -188,7 +194,7 @@ bool Level::isPlaying() {
 
 bool Level::draw() {
     clearScreen();
-    
+
     // Create grid output as string with border of walls
     // Character representation of entities
     // A Wall
@@ -213,17 +219,17 @@ bool Level::draw() {
     }
     string end(width+2, 'A');
     output+=end;
-    
+
     // Insert the player
     Point pos = player->getPosition();
     output.replace(((width+3)*(pos.y+1))+pos.x+1,1,"B");
-    
+
     // Insert the walls
     for (int i=0;i<wallCount;i++) {
         pos = walls[i]->getPosition();
         output.replace(((width+3)*(pos.y+1))+pos.x+1,1,"A");
     }
-    
+
     // Insert the enemies, based on their type, keeping track if they are all not alive
     bool allDead = true;
     for (int i=0;i<enemyCount;i++) {
@@ -239,7 +245,7 @@ bool Level::draw() {
             }
         }
     }
-    
+
     // Replace numbers with coloured characters, based on each entities draw function
     size_t loc = output.find_first_of("ABCDE");
     while (loc!=string::npos) {
@@ -262,14 +268,14 @@ bool Level::draw() {
         }
         loc = output.find_first_of("ABCDE",loc+1);
     }
-    
+
     // Output grid
     cout << output << endl << endl;
     // Return if all enemies are dead or not
     return allDead;
 }
 
-bool Level::playerMove() {
+int Level::playerMove() {
     string command;
     int direction = -1;
     do {
@@ -279,20 +285,23 @@ bool Level::playerMove() {
         // 2 = Up
         // 3 = Down
         cout << " > ";
-        cin >> command;
+	      command = getSingleChar();
+
         if ("quit" == command||"q" == command) {
-            return false;
+            return 2;
         } else if ("" == command||"e" == command||"wait" == command)  {
             turns++;
-            return true;
-        } else if ("a" == command||"left" == command)  {
+            return 1;
+        } else if ("a" == command||"left" == command || "\033[D"==command)  {
             direction = 0;
-        } else if ("d" == command||"right" == command)  {
+        } else if ("d" == command||"right" == command || "\033[C"==command)  {
             direction = 1;
-        } else if ("w" == command||"up" == command)  {
+        } else if ("w" == command||"up" == command || "\033[A"==command)  {
             direction = 2;
-        } else if ("s" == command||"down" == command)  {
+        } else if ("s" == command||"down" == command || "\033[B"==command)  {
             direction = 3;
+        } else if ("r" == command) {
+            return 3;
         } else {
             // Output error and ask for input again
             cout << escapeCodeBase("91") << "Invalid command!" + colourReset() + " Try 'w' for down, 'a' for left, 's' for down, 'd' for right, 'e' to wait or 'q' to quit." << endl;

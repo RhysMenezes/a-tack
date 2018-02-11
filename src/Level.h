@@ -21,7 +21,7 @@ public:
     // Outputs the game grid
     bool draw();
     // Take user input and move the player accordingly, returns true if move was successful, false if level should be quit
-    bool playerMove();
+    int playerMove();
     // Allow all enemies to move, returns false if player was killed and game should be restarted
     bool enemiesMove();
     // Returns the number of turns the player has made

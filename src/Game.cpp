@@ -11,7 +11,7 @@ Game::Game(Level *level) {
 }
 
 Game::~Game() {
-    
+
 }
 
 bool Game::play() {
@@ -25,11 +25,20 @@ bool Game::play() {
             replay = true;
             break;
         }
-        // If player wants to quit, exit loop
-        if (!level->playerMove()) {
+
+        int loop=0;
+      	loop=level->playerMove();
+
+        // If player wants to quit/restart, exit loop
+        if (loop==2) {
             replay = false;
             break;
         }
+        if (loop==3) {
+            return true;
+            break;
+        }
+
         // If player died, exit loop and ask if they want to replay or quit
         if (!level->enemiesMove()) {
             replay = true;
@@ -42,8 +51,7 @@ bool Game::play() {
         // Get user input and quit if requested
         cout << "Type 'q' to quit or 'r' to retry." << endl;
         cout << " > ";
-        string command;
-        cin >> command;
+        string command = getSingleChar();
         if ("q" == command||"quit" == command)  {
             replay = false;
         } else {
