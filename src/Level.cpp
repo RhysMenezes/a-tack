@@ -146,13 +146,7 @@ bool Level::load(string levelData,int width, int height) {
             enemies[e] = new EnemyBishop();
             enemies[e]->setPosition(x,y);
             e++;
-        } else if (levelData[i] == ' '||levelData[i] == '\t') {
-            x++;
-            continue;
-        } else if (levelData[i] != '.') {
-            cout << escapeCodeBase("31")+"Invalid character found."+colourReset() << endl;
-            return false;
-        }
+        } 
 
         // Check x an y don't exceed specified width and height
         if (x>=width) {
